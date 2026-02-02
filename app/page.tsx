@@ -7,6 +7,9 @@ import {
 } from "@/components/home/fallback";
 
 const Page = async () => {
+
+
+  
   return (
     <main className="main-container">
       <section className="home-grid">

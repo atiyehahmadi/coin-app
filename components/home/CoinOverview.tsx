@@ -16,10 +16,12 @@ const CoinOverview = async () => {
     return <CoinOverviewFallback />;
   }
 
+  await fetcher("ping", undefined, 0);
+
   return (
     <div id="coin-overview">
       <div className="header pt-2">
-        <Image src={coin.image.large} alt={coin.name} width={56} height={56} />
+        <Image src={coin.image?.large} alt={coin.name} width={56} height={56} />
         <div className="info">
           <p>
             {coin.name} / {coin.symbol.toUpperCase()}
