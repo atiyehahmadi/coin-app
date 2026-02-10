@@ -6,8 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', 'Courier New', monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -37,9 +37,9 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm:calc(var(--radius) - 4px);
-  --radius-md:calc(var(--radius) - 2px);
-  --radius-lg:var(--radius);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
   /* Brand colors */
@@ -58,37 +58,37 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: #f6f8fb;
+  --foreground: #0f1724;
+  --card: #ffffff;
+  --card-foreground: #0f1724;
+  --popover: #ffffff;
+  --popover-foreground: #0f1724;
+  --primary: #2563eb; /* blue-600 */
+  --primary-foreground: #ffffff;
+  --secondary: #eef2ff;
+  --secondary-foreground: #1e293b;
+  --muted: #f1f5f9;
+  --muted-foreground: #6b7280;
+  --accent: #f8fafc;
+  --accent-foreground: #1f2937;
+  --destructive: #ef4444;
+  --border: #e6e9ef;
+  --input: #f8fafc;
+  --ring: #93c5fd;
+  --chart-1: #60a5fa;
+  --chart-2: #7dd3fc;
+  --chart-3: #34d399;
+  --chart-4: #f472b6;
+  --chart-5: #facc15;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f1724;
+  --sidebar-primary: #f8fafc;
+  --sidebar-primary-foreground: #0f1724;
+  --sidebar-accent: #eef2ff;
+  --sidebar-accent-foreground: #1e293b;
+  --sidebar-border: #e6e9ef;
+  --sidebar-ring: #bfdbfe;
 }
 
 .dark {
@@ -145,7 +145,6 @@
   * {
     @apply border-border outline-ring/50;
   }
-
   body {
     @apply bg-dark-700 text-foreground;
   }
@@ -664,7 +663,7 @@
     }
 
     .search-item {
-      @apply grid grid-cols-4 gap-4 items-center justify-between data-[selected=true]:bg-dark-400 transition-all! cursor-pointer hover:bg-dark-400 py-3;
+      @apply grid grid-cols-4 gap-4 items-center justify-between data-[selected=true]:bg-dark-400 transition-all !cursor-pointer hover:bg-dark-400 py-3;
 
       .coin-info {
         @apply flex gap-4 items-center col-span-2;
@@ -922,6 +921,228 @@
 
       .time-cell {
         @apply pr-5;
+      }
+    }
+  }
+
+  /* Global Market Page */
+  #global-page {
+    @apply py-12 px-4 sm:px-6 mx-auto max-w-360 size-full;
+
+    .error-state {
+      @apply flex items-center justify-center h-64 text-purple-100;
+    }
+
+    .content {
+      @apply space-y-8;
+    }
+
+    .page-header {
+      @apply mb-8;
+
+      h1 {
+        @apply text-3xl md:text-4xl font-bold mb-2;
+      }
+
+      .subtitle {
+        @apply text-purple-100 text-lg;
+      }
+    }
+
+    .stats-grid {
+      @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4;
+    }
+
+    .stat-card {
+      @apply bg-dark-500 rounded-xl p-6 flex items-start gap-4 border border-purple-600/20 transition-all hover:border-purple-600/40;
+
+      &.featured {
+        @apply md:col-span-2 lg:col-span-2 bg-gradient-to-br from-dark-500 to-purple-600/20;
+      }
+
+      .stat-icon {
+        @apply p-3 rounded-lg bg-purple-600/30 text-green-400;
+      }
+
+      .stat-content {
+        @apply flex-1;
+
+        .label {
+          @apply text-purple-100 text-sm mb-1;
+        }
+
+        h2 {
+          @apply text-2xl md:text-3xl font-bold;
+        }
+
+        h3 {
+          @apply text-xl md:text-2xl font-semibold;
+        }
+
+        .change {
+          @apply flex items-center gap-1 mt-2 text-sm font-medium;
+
+          &.positive {
+            @apply text-green-500;
+          }
+
+          &.negative {
+            @apply text-red-500;
+          }
+        }
+      }
+    }
+
+    .dominance-section {
+      @apply mt-10;
+
+      h2 {
+        @apply text-2xl font-semibold mb-6;
+      }
+
+      .dominance-grid {
+        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4;
+      }
+
+      .dominance-card {
+        @apply bg-dark-500 rounded-xl p-5 border border-purple-600/20;
+
+        .dominance-header {
+          @apply flex justify-between items-center mb-3;
+
+          .symbol {
+            @apply font-bold text-lg;
+          }
+
+          .percentage {
+            @apply text-green-400 font-semibold;
+          }
+        }
+
+        .dominance-bar {
+          @apply h-2 bg-dark-400 rounded-full overflow-hidden;
+
+          .dominance-fill {
+            @apply h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full transition-all;
+          }
+        }
+      }
+    }
+
+    .ico-section {
+      @apply mt-10;
+
+      h2 {
+        @apply text-2xl font-semibold mb-6;
+      }
+
+      .ico-grid {
+        @apply grid grid-cols-1 sm:grid-cols-3 gap-4;
+      }
+
+      .ico-card {
+        @apply bg-dark-500 rounded-xl p-6 text-center border border-purple-600/20;
+
+        .value {
+          @apply text-3xl font-bold text-green-400 mb-2;
+        }
+
+        .label {
+          @apply text-purple-100;
+        }
+      }
+    }
+
+    .last-updated {
+      @apply text-center text-purple-100 text-sm mt-8;
+    }
+  }
+
+  /* Exchanges Page */
+  #exchanges-page {
+    @apply py-12 px-4 sm:px-6 mx-auto max-w-360 size-full;
+
+    .error-state {
+      @apply flex items-center justify-center h-64 text-purple-100;
+    }
+
+    .content {
+      @apply space-y-6;
+    }
+
+    .page-header {
+      @apply mb-6;
+
+      h1 {
+        @apply text-3xl md:text-4xl font-bold mb-2;
+      }
+
+      .subtitle {
+        @apply text-purple-100 text-lg;
+      }
+    }
+
+    .exchanges-table {
+      @apply bg-dark-500 rounded-xl overflow-hidden;
+
+      .rank-cell {
+        @apply pl-5 py-4 font-medium text-purple-100 w-16;
+
+        a {
+          @apply absolute inset-0 z-10;
+        }
+      }
+
+      .exchange-cell {
+        @apply py-3;
+
+        .exchange-info {
+          @apply flex items-center gap-3;
+
+          .exchange-logo {
+            @apply rounded-full;
+          }
+
+          .exchange-details {
+            @apply flex flex-col;
+
+            .name {
+              @apply font-semibold;
+            }
+
+            .country {
+              @apply text-xs text-purple-100;
+            }
+          }
+        }
+      }
+
+      .trust-cell {
+        @apply py-4;
+
+        .trust-score {
+          @apply flex items-center gap-2 font-medium;
+        }
+      }
+
+      .volume-cell {
+        @apply py-4 font-medium;
+      }
+
+      .normalized-cell {
+        @apply py-4 font-medium text-purple-100;
+      }
+
+      .year-cell {
+        @apply py-4 text-purple-100;
+      }
+
+      .link-cell {
+        @apply py-4 pr-5;
+
+        .external-link {
+          @apply text-green-500 hover:text-green-400 transition-colors;
+        }
       }
     }
   }
