@@ -4,6 +4,9 @@ import qs from 'query-string';
 
 const BASE_URL = process.env.COINGECKO_BASE_URL || 'https://api.coingecko.com/api/v3';
 
+// Server-side helper to determine if a pro API key is available.
+const PRO_API_KEY = process.env.COINGECKO_API_KEY ?? null;
+
 export async function fetcher<T>(
   endpoint: string,
   params?: QueryParams,
@@ -23,10 +26,18 @@ export async function fetcher<T>(
   const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+
+    // If a server-side CoinGecko API key is present, send it as the pro header.
+    // Do NOT expose this key in client bundles or logs.
+    if (PRO_API_KEY) {
+      headers['x-cg-pro-api-key'] = PRO_API_KEY;
+    }
+
     const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       next: { revalidate },
     });
 
@@ -35,6 +46,20 @@ export async function fetcher<T>(
     }
 
     const errorBody: CoinGeckoErrorBody = await response.json().catch(() => ({}));
+
+    // Diagnostic logging for non-200 responses to help surface issues in production.
+    // This logs the request URL and status + response body but never prints secrets.
+    try {
+      // eslint-disable-next-line no-console
+      console.error(`[CoinGecko] Request failed`, {
+        url,
+        status: response.status,
+        body: errorBody,
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (logErr) {
+      // swallow logging errors to avoid masking the real error
+    }
 
     // Handle rate limiting with Retry-After header and exponential backoff + jitter
     if (response.status === 429 && attempt < maxRetries) {
